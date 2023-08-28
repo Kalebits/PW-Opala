@@ -1,4 +1,4 @@
-package entity;
+package com.etechoracio.opala.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +16,6 @@ public class Instrumento {
     @Column(name = "ID_Instrumento")
     private Long id;
 
-    @Column(name="TX_DESCRICAO")
+    @Column(name="DESCRICAO")
     private String descricao;
 }
