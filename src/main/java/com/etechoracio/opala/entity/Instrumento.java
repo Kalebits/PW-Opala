@@ -13,9 +13,9 @@ public class Instrumento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Instrumento")
-    private Long id;
+    @Column(name = "Id_Instrumento")
+    private Long Id_Instrumento;
 
-    @Column(name="DESCRICAO")
+    @Column(name="descricao")
     private String descricao;
 }
