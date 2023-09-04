@@ -1,2 +1,3 @@
-package com.etechoracio.opala.entity;public class Midia {
+package com.etechoracio.opala.entity;
+public class Midia {
 }
