@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -18,4 +20,10 @@ public class Instrumento {
 
     @Column(name="descricao")
     private String descricao;
+
+    @ManyToMany
+    @JoinTable(name = "Id_UsuInst", joinColumns =
+            {@JoinColumn(name = "Id_Usuario")}, inverseJoinColumns =
+            {@JoinColumn(name="Id_Instrumento")})
+    private List<Usuario> usuarios;
 }

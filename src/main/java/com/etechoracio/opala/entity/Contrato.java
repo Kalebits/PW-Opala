@@ -1,11 +1,9 @@
 package com.etechoracio.opala.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Contrato {
 
@@ -22,5 +20,11 @@ public class Contrato {
 
     @Column(name = "dt_Apresentacao")
     private LocalDate dt_Apresentacao;
+
+    @ManyToMany
+    @JoinTable(name = "Id_UsuCont", joinColumns =
+            {@JoinColumn(name = "Id_Usuario")}, inverseJoinColumns =
+            {@JoinColumn(name="Id_Contrato")})
+    private List<Usuario> usuarios;
 
 }
