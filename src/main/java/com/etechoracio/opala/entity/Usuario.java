@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 
 
 @Getter
@@ -39,5 +40,25 @@ public class Usuario {
     @Column(name="genero")
     @Enumerated(EnumType.STRING)
     private TipoGenero genero;
+
+    @ManyToMany
+    @JoinTable(name="Id_UsuInst", joinColumns={
+            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
+            @JoinColumn(name = "Id_Instrumento")})
+    private List<Instrumento> instrumentos;
+
+    @ManyToMany
+    @JoinTable(name="Id_UsuBanda", joinColumns={
+            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
+            @JoinColumn(name = "Id_Banda")})
+    private List<Banda> bandas;
+
+    @ManyToMany
+    @JoinTable(name="Id_UsuCont", joinColumns={
+            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
+            @JoinColumn(name = "Id_Contrato")})
+    private List<Contrato> contratos;
+
+
 
 }
