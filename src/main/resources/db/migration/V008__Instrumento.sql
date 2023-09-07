@@ -1,6 +1,6 @@
 create table Instrumento(
-Id_Instrumento numeric(10) constraint Id_Instrumento_Pk primary key,
-descricao char(20)
+ID_INSTRUMENTO BIGINT PRIMARY KEY IDENTITY,
+descricao varchar(20)
 )
 
 INSERT INTO Instrumento (descricao) VALUES ('teclado');

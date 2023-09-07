@@ -20,4 +20,6 @@ public class MidiaController {
     public List<Midia> buscarTodos(){
         return mRepository.findAll();
     }
+
+    // Find all by id
 }

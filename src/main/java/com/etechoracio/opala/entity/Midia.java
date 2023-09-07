@@ -7,20 +7,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name="Midia")
 public class Midia {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Midia")
+    @Column(name = "ID_MIDIA")
     @Id
-    private Long Id_Midia;
+    private Long id_Midia;
 
     @Column(name = "videoUrl")
     private String videoUrl;
 
     @Column(name = "Descricao")
-    private String Descricao;
+    private String descricao;
 
-    @Column(name = "Id_Usuario")
-    private Usuario id;
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario id_usuario;
 
 }

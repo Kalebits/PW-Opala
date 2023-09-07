@@ -1,16 +1,23 @@
 package com.etechoracio.opala.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
+
+@Getter
+@Setter
+@Entity
+@Table(name="Contrato")
 public class Contrato {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_contrato")
+    @Column(name = "ID_CONTRATO")
     @Id
-    private long Id_Contrato;
+    private long id_Contrato;
 
     @Column(name = "dt_Cont")
     private LocalDate dt_Cont;
@@ -22,9 +29,9 @@ public class Contrato {
     private LocalDate dt_Apresentacao;
 
     @ManyToMany
-    @JoinTable(name = "Id_UsuCont", joinColumns =
-            {@JoinColumn(name = "Id_Usuario")}, inverseJoinColumns =
-            {@JoinColumn(name="Id_Contrato")})
+    @JoinTable(name = "UsuCont", joinColumns =
+            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns =
+            {@JoinColumn(name="ID_CONTRATO")})
     private List<Usuario> usuarios;
 
 }

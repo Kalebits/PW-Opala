@@ -1,20 +1,24 @@
 package com.etechoracio.opala.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
+@Table(name="Habilidade")
 public class Habilidade {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Habilidade")
+    @Column(name = "ID_HABILIDADE")
     @Id
-    private Long Id_Habilidade;
+    private Long id_Habilidade;
 
     @Column(name="DESCRICAO")
     private String descricao;
 
-    @Column(name = "Id_Usuario")
-    private Usuario Id;
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario id_usuario;
 }

@@ -1,16 +1,19 @@
 package com.etechoracio.opala.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
+@Table(name="Pagamento")
 public class Pagamento {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Pagamento")
+    @Column(name = "ID_PAGAMENTO")
     @Id
-    private Long Id_Pagamento;
+    private Long id_Pagamento;
 
     @Column(name = "Valor")
     private double valor;
@@ -18,6 +21,7 @@ public class Pagamento {
     @Column(name = "metodo")
     private String metodo;
 
-    @Column(name = "Id_Contrato")
+    @ManyToOne
+    @JoinColumn(name = "ID_CONTRATO")
     private Contrato id_Contrato;
 }

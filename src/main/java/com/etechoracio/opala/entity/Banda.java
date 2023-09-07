@@ -9,22 +9,23 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="Banda")
 public class Banda {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name="Id_Banda")
-    private Long Id_Banda;
+    @Column(name="ID_BANDA")
+    private Long id_Banda;
 
     @Column (name="NomeBanda")
-    private String NomeBanda;
+    private String nomeBanda;
 
     @Column (name="Estilo")
-    private String Estilo;
+    private String estilo;
 
     @ManyToMany
-    @JoinTable(name = "Id_UsuBanda", joinColumns =
-            {@JoinColumn(name = "Id_Usuario")}, inverseJoinColumns =
-            {@JoinColumn(name="Id_Banda")})
+    @JoinTable(name = "UsuBanda", joinColumns =
+            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns =
+            {@JoinColumn(name="ID_BANDA")})
     private List<Usuario> usuarios;
 }

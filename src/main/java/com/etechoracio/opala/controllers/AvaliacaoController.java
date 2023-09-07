@@ -23,5 +23,5 @@ public class AvaliacaoController {
         return aRepository.findAll();
     }
 
-
+    // find all by id
 }

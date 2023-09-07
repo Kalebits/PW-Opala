@@ -1,5 +1,5 @@
 create table Contrato(
-Id_Contrato numeric(10) constraint Id_Contrato_Pk primary key,
+ID_CONTRATO BIGINT PRIMARY KEY IDENTITY,
 dt_Cont date not null,
 Duracao int not null,
 dt_Apresentacao date not null

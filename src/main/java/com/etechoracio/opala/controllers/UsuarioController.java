@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -24,9 +25,8 @@ public class UsuarioController {
     }
 
     @GetMapping(value = "/{id}")
-    public Usuario findById(@PathVariable Long id){
-        Usuario usuario = uRepository.findById(id).get();
-        return usuario;
+    public Optional<Usuario> findById(@PathVariable Long id){
+        return uRepository.findById(id);
     }
 
 

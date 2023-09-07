@@ -12,14 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="TBL_USUARIO")
-
+@Table(name="Usuario")
 public class Usuario {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name="Id_Usuario")
-    private Long Id_Usuario;
+    @Column(name="ID_USUARIO")
+    private Long id_Usuario;
 
     @Column(name="Nome")
     private String nome;
@@ -28,9 +27,12 @@ public class Usuario {
     private String email;
 
     @Column(name="Senha")
-    private double senha;
+    private String senha;
 
-    @Column(name="endereco")
+    @Column(name="Telefone")
+    private Integer telefone;
+
+    @Column(name="Endereco")
     private String endereco;
 
     @Column(name="tipoUsuario")
@@ -42,21 +44,21 @@ public class Usuario {
     private TipoGenero genero;
 
     @ManyToMany
-    @JoinTable(name="Id_UsuInst", joinColumns={
-            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
-            @JoinColumn(name = "Id_Instrumento")})
+    @JoinTable(name="UsuInst", joinColumns=
+            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
+            {@JoinColumn(name = "ID_INSTRUMENTO")})
     private List<Instrumento> instrumentos;
 
     @ManyToMany
-    @JoinTable(name="Id_UsuBanda", joinColumns={
-            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
-            @JoinColumn(name = "Id_Banda")})
+    @JoinTable(name="UsuBanda", joinColumns=
+            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
+            {@JoinColumn(name = "ID_BANDA")})
     private List<Banda> bandas;
 
     @ManyToMany
-    @JoinTable(name="Id_UsuCont", joinColumns={
-            @JoinColumn(name = "Id_Usuario")}, inverseJoinColumns = {
-            @JoinColumn(name = "Id_Contrato")})
+    @JoinTable(name="UsuCont", joinColumns=
+            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
+            {@JoinColumn(name = "ID_CONTRATO")})
     private List<Contrato> contratos;
 
 

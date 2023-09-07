@@ -1,21 +1,20 @@
 package com.etechoracio.opala.entity;
 
 import com.etechoracio.opala.entity.Usuario;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Table(name="Avaliacao")
 public class Avaliacao {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id_Avaliacao")
-    private Long Id_Avaliacao;
+    @Id
+    @Column(name = "ID_AVALIACAO")
+    private Long id_Avaliacao;
 
     @Column(name = "Comentario")
     private String comentario;
@@ -23,7 +22,8 @@ public class Avaliacao {
     @Column(name = "Nota")
     private double nota;
 
-    @Column(name = "Id_Usuario")
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
     public Usuario id_Usuario;
 
 }
