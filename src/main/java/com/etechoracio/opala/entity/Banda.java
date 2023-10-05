@@ -23,9 +23,6 @@ public class Banda {
     @Column (name="Estilo")
     private String estilo;
 
-    @ManyToMany
-    @JoinTable(name = "UsuBanda", joinColumns =
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns =
-            {@JoinColumn(name="ID_BANDA")})
+    @ManyToMany(mappedBy = "bandas")
     private List<Usuario> usuarios;
 }

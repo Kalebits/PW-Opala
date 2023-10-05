@@ -28,10 +28,7 @@ public class Contrato {
     @Column(name = "dt_Apresentacao")
     private LocalDate dt_Apresentacao;
 
-    @ManyToMany
-    @JoinTable(name = "UsuCont", joinColumns =
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns =
-            {@JoinColumn(name="ID_CONTRATO")})
+    @ManyToMany(mappedBy = "contratos")
     private List<Usuario> usuarios;
 
 }

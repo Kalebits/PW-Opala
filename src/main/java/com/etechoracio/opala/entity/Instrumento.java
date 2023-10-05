@@ -20,9 +20,6 @@ public class Instrumento {
     @Column(name="descricao")
     private String descricao;
 
-    @ManyToMany
-    @JoinTable(name = "UsuInst", joinColumns =
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns =
-            {@JoinColumn(name="ID_INSTRUMENTO")})
+    @ManyToMany(mappedBy = "instrumentos")
     private List<Usuario> usuarios;
 }
