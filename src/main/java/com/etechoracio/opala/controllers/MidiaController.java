@@ -33,7 +33,7 @@ public class MidiaController {
         if (existe.isPresent()) {
             List<Usuario> midias = mRepository.findAllMidias(idUsuario);
             if (!midias.isEmpty()) {
-                throw new IllegalArgumentException("Não existem avaliações para o usúario informado");
+                throw new IllegalArgumentException("Não existem midias cadastradas para o usúario informado");
             }
             return ResponseEntity.ok(midias);
         }

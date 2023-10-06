@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MidiaRepository extends JpaRepository<Midia, Long> {
 
-    @Query("select u from Usuario u where u.id_Usuario = :idUsuario")
+    @Query("select m.videoUrl from Midia m where m.id_usuario = :idUsuario")
     List<Usuario> findAllMidias(long idUsuario);
 }
