@@ -23,8 +23,8 @@ public class MidiaController {
 
     @GetMapping
     public ResponseEntity<?> buscarTodos(@RequestParam(required = false) long idUsuario) {
-
-        if (idUsuario == 0L) {
+        int x = 0;
+        if (idUsuario != 0L) {
             return ResponseEntity.ok(mRepository.findAll());
         }
         else

@@ -2,6 +2,8 @@ package com.etechoracio.opala.entity;
 
 import com.etechoracio.opala.Enum.CategoriaEnum;
 import com.etechoracio.opala.Enum.TipoGenero;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
