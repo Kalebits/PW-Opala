@@ -3,6 +3,7 @@ package com.etechoracio.opala.controllers;
 import com.etechoracio.opala.entity.Midia;
 import com.etechoracio.opala.entity.Usuario;
 import com.etechoracio.opala.repositories.MidiaRepository;
+import com.etechoracio.opala.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,28 +22,31 @@ public class MidiaController {
     @Autowired
     private MidiaRepository mRepository;
 
+    @Autowired
+    private UsuarioRepository uRepository;
+
     @GetMapping
-    public ResponseEntity<?> buscarTodos(@RequestParam(required = false) long idUsuario) {
-        int x = 0;
-        if (idUsuario != 0L) {
+    public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long id) {
+
+        if (id == null) {
             return ResponseEntity.ok(mRepository.findAll());
         }
         else
         {
-        Optional<Midia> existe = mRepository.findById(idUsuario);
-        if (existe.isPresent()) {
-            List<Usuario> midias = mRepository.findAllMidias(idUsuario);
-            if (!midias.isEmpty()) {
-                throw new IllegalArgumentException("Não existem midias cadastradas para o usúario informado");
+            Optional<Usuario> existe = uRepository.findById(id);
+            if (existe.isPresent()) {
+                List<Midia> midias = mRepository.findAllMidias(id);
+                if (midias.isEmpty()) {
+                    throw new IllegalArgumentException("Não existem midias cadastradas para o usúario informado");
+                }
+                return ResponseEntity.ok(midias);
+                //ResponseEntity não funciona retornando um unico campo do banco
             }
-            return ResponseEntity.ok(midias);
+            else
+            {
+                throw new IllegalArgumentException("Não existe um usúario com o id informado");
+            }
         }
-        else
-        {
-            ResponseEntity.notFound().build();
-        }
-        }
-        return ResponseEntity.notFound().build();
     }
     // Find all by id
 }
