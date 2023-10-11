@@ -22,6 +22,7 @@ public class MidiaController {
     @Autowired
     private UsuarioRepository uRepository;
 
+<<<<<<< HEAD
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
 
@@ -45,6 +46,28 @@ public class MidiaController {
     public ResponseEntity<?> buscarTodos() {
         return ResponseEntity.ok(mRepository.findAll());
     }
+=======
+    @GetMapping
+    public ResponseEntity<?> buscarTodos() {return ResponseEntity.ok(mRepository.findAll());}
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
+
+            Optional<Usuario> existe = uRepository.findById(id);
+            if (existe.isPresent()) {
+                List<String> midias = mRepository.findAllMidias(id);
+                if (midias.isEmpty()) {
+                    throw new IllegalArgumentException("Não existem midias cadastradas para o usuário informado");
+                }
+                return ResponseEntity.ok(midias);
+//ResponseEntity não funciona retornando um unico campo do banco
+            }
+            else
+            {
+                throw new IllegalArgumentException("Não existe um usuário com o id informado");
+            }
+
+>>>>>>> d9fa753d2b3646542061d960748ecaba82b8aade
     }
     // Find all by id
 
