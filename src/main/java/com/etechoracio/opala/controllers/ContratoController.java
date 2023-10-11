@@ -21,18 +21,30 @@ public class ContratoController {
     private UsuarioRepository uRepository;
 
     @GetMapping
-    public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long idUsuario){
-        if(idUsuario == null){
-            return ResponseEntity.ok(cRepository.findAll());
-        }
-        Optional<Usuario> existe = uRepository.findById(idUsuario);
-        if(existe.isEmpty()){
-            throw new IllegalArgumentException("Não existe um usúario com o id informado");
-        }
-    }
+    public ResponseEntity<?> buscarTodos(){return ResponseEntity.ok(cRepository.findAll());}
 
     @GetMapping(value = "/{id}")
     public Optional<Contrato> findById(@PathVariable Long id){
         return cRepository.findById(id);
+    }
+
+
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
+
+        Optional<Usuario> existe = uRepository.findById(id);
+        if (existe.isPresent()) {
+            List<Contrato> contratos = cRepository.findAllContratos(id);
+            if (contratos.isEmpty()) {
+                throw new IllegalArgumentException("Não existem contratos para o usuário informado");
+            }
+            return ResponseEntity.ok(contratos);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Não existe um usuário com o id informado");
+        }
+
     }
 }

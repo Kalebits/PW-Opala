@@ -22,7 +22,7 @@ public class BandaController {
     @Autowired
     private UsuarioRepository uRepository;
 
-    @GetMapping
+  /*  @GetMapping
     public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long idUsuario){
         if(idUsuario == null){
             return ResponseEntity.ok(bRepository.findAll());
@@ -35,7 +35,7 @@ public class BandaController {
             }
 
         }
-    }
+    }*/
 
     @GetMapping(value = "/{id}")
     public Optional<Banda> findById(@PathVariable Long id){
