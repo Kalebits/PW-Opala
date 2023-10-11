@@ -19,7 +19,7 @@ public class ContratoController {
     private ContratoRepository cRepository;
     @Autowired
     private UsuarioRepository uRepository;
-
+/*
     @GetMapping
     public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long idUsuario){
         if(idUsuario == null){
@@ -29,7 +29,7 @@ public class ContratoController {
         if(existe.isEmpty()){
             throw new IllegalArgumentException("Não existe um usúario com o id informado");
         }
-    }
+    }*/
 
     @GetMapping(value = "/{id}")
     public Optional<Contrato> findById(@PathVariable Long id){

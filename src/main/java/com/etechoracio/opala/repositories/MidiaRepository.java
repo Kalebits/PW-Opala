@@ -10,5 +10,5 @@ public interface MidiaRepository extends JpaRepository<Midia, Long> {
 
     @Query("select m from Midia m where m.id_usuario.id_Usuario = :idUsuario")
     //Colocar m.videoUrl da erro no ResponseEntity
-    List<Midia> findAllMidias(long idUsuario);
+    List<String> findAllMidias(long idUsuario);
 }

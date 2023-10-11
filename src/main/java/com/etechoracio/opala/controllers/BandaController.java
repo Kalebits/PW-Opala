@@ -22,19 +22,23 @@ public class BandaController {
     @Autowired
     private UsuarioRepository uRepository;
 
-    @GetMapping
-    public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long idUsuario){
-        if(idUsuario == null){
-            return ResponseEntity.ok(bRepository.findAll());
+      @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> buscar(@PathVariable Long id) {
+        Optional<Usuario> existe = uRepository.findById(id);
+        if (existe.isPresent()) {
+            List<Banda> bandas = bRepository.findAllBandas(id);
+            if (bandas.isEmpty()) {
+                throw new IllegalArgumentException("Não existem bandas cadastradas para o usuário informado");
+            }
+            return ResponseEntity.ok(bandas);
+
         }
         else
         {
-            Optional<Usuario> existe = uRepository.findById(idUsuario);
-            if(existe.isEmpty()){
-                throw new IllegalArgumentException("Não existe um usúario com o id informado");
-            }
-
+            throw new IllegalArgumentException("Não existe um usuário com o id informado");
         }
+
+
     }
 
     @GetMapping(value = "/{id}")
