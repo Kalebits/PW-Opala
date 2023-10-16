@@ -19,21 +19,7 @@ public class ContratoController {
     private ContratoRepository cRepository;
     @Autowired
     private UsuarioRepository uRepository;
-/*
-    @GetMapping
-<<<<<<< HEAD
-    public ResponseEntity<?> buscarTodos(@RequestParam(required = false) Long idUsuario){
-        if(idUsuario == null){
-            return ResponseEntity.ok(cRepository.findAll());
-        }
-        Optional<Usuario> existe = uRepository.findById(idUsuario);
-        if(existe.isEmpty()){
-            throw new IllegalArgumentException("Não existe um usúario com o id informado");
-        }
-    }*/
-=======
     public ResponseEntity<?> buscarTodos(){return ResponseEntity.ok(cRepository.findAll());}
->>>>>>> d9fa753d2b3646542061d960748ecaba82b8aade
 
     @GetMapping(value = "/{id}")
     public Optional<Contrato> findById(@PathVariable Long id){
@@ -43,7 +29,7 @@ public class ContratoController {
 
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
+    public ResponseEntity<?> buscarTodosContratosPorUsuario(@PathVariable Long id) {
 
         Optional<Usuario> existe = uRepository.findById(id);
         if (existe.isPresent()) {
