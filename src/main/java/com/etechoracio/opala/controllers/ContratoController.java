@@ -26,8 +26,6 @@ public class ContratoController {
         return cRepository.findById(id);
     }
 
-
-
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarTodosContratosPorUsuario(@PathVariable Long id) {
 

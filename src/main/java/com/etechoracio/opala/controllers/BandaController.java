@@ -22,6 +22,14 @@ public class BandaController {
     @Autowired
     private UsuarioRepository uRepository;
 
+    @GetMapping
+    public List<Banda> buscarTodos(){return bRepository.findAll();}
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Banda> buscarPorId(@PathVariable Long id){
+        Optional<Banda> existe = bRepository.findById(id);
+        return existe.isPresent() ? ResponseEntity.ok(existe.get()) : ResponseEntity.notFound().build();
+    }
 
       @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscar(@PathVariable Long id) {
@@ -38,10 +46,7 @@ public class BandaController {
           }
       }
 
-    @GetMapping(value = "/{id}")
-    public Optional<Banda> findById(@PathVariable Long id){
-        return bRepository.findById(id);
-    }
+    
 
 
 

@@ -22,10 +22,6 @@ public class AvaliacaoController {
     @Autowired
     private UsuarioRepository uRepository;
 
-    @GetMapping
-    public ResponseEntity<?> buscarTodos() {return ResponseEntity.ok(aRepository.findAll());}
-
-
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscartodasAvaliacoesPorUsuario(@PathVariable Long id){
 
