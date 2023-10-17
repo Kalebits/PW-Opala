@@ -10,11 +10,4 @@ import java.util.List;
 
 
 public interface BandaRepository extends JpaRepository<Banda, Long> {
-
-    @Query("select b from Banda b inner join Usuario ub on b.id = ub.bandas.idBanda " +
-            "where ub.idUsuario = :idUsuario")
-            /*"select b from Banda b INNER JOIN Usuario as u ON " +
-            "b.ID_BANDA = u.bandas.idBanda" +
-            "where u.ID_USUARIO = :idUsuario")*/
-    List<Banda> findAllBandasByUser(Long idUsuario);
 }

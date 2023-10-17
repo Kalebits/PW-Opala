@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MidiaRepository extends JpaRepository<Midia, Long> {
 
-    @Query("select m.videoUrl from Midia m where m.id_usuario.id_Usuario = :idUsuario")
+    @Query("select m.videoUrl, m.descricao from Midia m where m.id_usuario.id_Usuario = :idUsuario")
     //Colocar m.videoUrl da erro no ResponseEntity
-    List<String> findAllMidias(long idUsuario);
+    List<Midia> findAllMidias(Long idUsuario);
 }

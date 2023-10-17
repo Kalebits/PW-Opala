@@ -63,6 +63,4 @@ public class Usuario {
             {@JoinColumn(name = "ID_CONTRATO")})
     private List<Contrato> contratos;
 
-
-
 }

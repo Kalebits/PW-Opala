@@ -30,7 +30,7 @@ public class MidiaController {
 
             Optional<Usuario> existe = uRepository.findById(id);
             if (existe.isPresent()) {
-                List<String> midias = mRepository.findAllMidias(id);
+                List<Midia> midias = mRepository.findAllMidias(id);
                 if (midias.isEmpty()) {
                     throw new IllegalArgumentException("Não existem midias cadastradas para o usuário informado");
                 }

@@ -25,4 +25,6 @@ public class PagamentoController {
     public Optional<Pagamento> findById(@PathVariable Long id){
         return pRepository.findById(id);
     }
+
+
 }

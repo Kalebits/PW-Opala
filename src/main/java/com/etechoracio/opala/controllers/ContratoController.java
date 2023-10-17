@@ -33,7 +33,7 @@ public class ContratoController {
 
         Optional<Usuario> existe = uRepository.findById(id);
         if (existe.isPresent()) {
-            List<Contrato> contratos = cRepository.findAllContratos(id);
+            List<Contrato> contratos = existe.get().getContratos();
             if (contratos.isEmpty()) {
                 throw new IllegalArgumentException("Não existem contratos para o usuário informado");
             }

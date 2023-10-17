@@ -27,7 +27,7 @@ public class BandaController {
     public ResponseEntity<?> buscar(@PathVariable Long id) {
           Optional<Usuario> existe = uRepository.findById(id);
           if (existe.isPresent()) {
-              List<Banda> bandas = bRepository.findAllBandasByUser(id);
+              List<Banda> bandas = existe.get().getBandas();
               if (bandas.isEmpty()) {
                   throw new IllegalArgumentException("Não existem bandas cadastradas para o usuário informado");
               }
