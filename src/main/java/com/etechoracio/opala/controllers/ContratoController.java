@@ -22,9 +22,12 @@ public class ContratoController {
     public ResponseEntity<?> buscarTodos(){return ResponseEntity.ok(cRepository.findAll());}
 
     @GetMapping(value = "/{id}")
-    public Optional<Contrato> findById(@PathVariable Long id){
-        return cRepository.findById(id);
+    public ResponseEntity<Contrato> buscarPorId(@PathVariable Long id){
+        Optional<Contrato> existe = cRepository.findById(id);
+        return existe.isPresent() ? ResponseEntity.ok(existe.get())
+                : ResponseEntity.notFound().build();
     }
+
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarTodosContratosPorUsuario(@PathVariable Long id) {
@@ -43,4 +46,24 @@ public class ContratoController {
         }
 
     }
+    @PostMapping
+    public ResponseEntity<Contrato> inserir(@RequestBody Contrato body){
+        Contrato c1 = cRepository.save(body);
+        return ResponseEntity.ok(c1);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Contrato> atualizar(@PathVariable Long id,
+                                              @RequestBody Contrato contrato){
+        Optional<Contrato> existe = cRepository.findById(id);
+        if(existe.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        //Aqui apenas o contratante poderia alterar e o contratado teria que aceitar
+        // para finalizar a edição e caso recuse mandar notificação para caso
+        // queira cancelar pagando uma taxa de cancelamento
+        Contrato c1 = cRepository.save(contrato);
+        return ResponseEntity.ok(c1);
+    }
+
 }

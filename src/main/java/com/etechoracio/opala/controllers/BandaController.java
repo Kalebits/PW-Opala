@@ -46,10 +46,21 @@ public class BandaController {
           }
       }
 
-    
+      @PostMapping
+    public ResponseEntity<Banda> inserir(@RequestBody Banda body){
+        Banda b1 = bRepository.save(body);
+        return ResponseEntity.ok(b1);
+      }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Banda>  atualizar(@PathVariable Long id,
+                                            @RequestBody Banda banda){
+        Optional<Banda> existe = bRepository.findById(id);
+        if(existe.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        Banda b1 = bRepository.save(banda);
+        return ResponseEntity.ok(b1);
+    }
 
-
-    // find all by id
-    // buscar id de banda com o id de usuario
 }

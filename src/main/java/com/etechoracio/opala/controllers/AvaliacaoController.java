@@ -38,4 +38,12 @@ public class AvaliacaoController {
             throw new IllegalArgumentException("Não existe um usuário com o id informado");
         }
     }
+
+    @PostMapping
+    public ResponseEntity<Avaliacao> inserir(@RequestBody Avaliacao body){
+        Avaliacao a1 = aRepository.save(body);
+        return ResponseEntity.ok(a1);
+    }
+
+    //Acho que não pode editar avaliação
 }

@@ -30,6 +30,15 @@ public class MidiaController {
     @GetMapping
     public ResponseEntity<?> buscarTodos() {return ResponseEntity.ok(mRepository.findAll());}
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Midia> buscarPorId(@PathVariable Long id){
+        Optional<Midia> existe = mRepository.findById(id);
+        return existe.isPresent() ? ResponseEntity.ok(existe.get())
+                : ResponseEntity.notFound().build();
+    }
+
+
+
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
 
@@ -48,6 +57,25 @@ public class MidiaController {
                 throw new IllegalArgumentException("Não existe um usuário com o id informado");
             }
     }
+    @PostMapping
+    public ResponseEntity<Midia> inserir(@RequestBody Midia body){
+        Midia m1 = mRepository.save(body);
+        return ResponseEntity.ok(m1);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Midia> atualizar(@PathVariable Long id,
+                                           @RequestBody Midia midia){
+        Optional<Midia> existe = mRepository.findById(id);
+        if(existe.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        //Não sei se precisaria editar o videoURL, pq n sei se poderia, mas vou deixar para editar oq quiser por enq
+        Midia m1 = mRepository.save(midia);
+        return ResponseEntity.ok(m1);
+    }
+
+
+
  }
 
 
