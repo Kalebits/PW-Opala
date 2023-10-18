@@ -23,27 +23,36 @@ public class AvaliacaoController {
     private UsuarioRepository uRepository;
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<?> buscartodasAvaliacoesPorUsuario(@PathVariable Long id){
+    public ResponseEntity<?> buscartodasAvaliacoesPorUsuario(@PathVariable Long id) {
 
         Optional<Usuario> existe = uRepository.findById(id);
-        if(existe.isPresent()){
+        if (existe.isPresent()) {
             List<Avaliacao> avaliacao = aRepository.findAllAvaliacao(id);
-            if(avaliacao.isEmpty()){
+            if (avaliacao.isEmpty()) {
                 throw new IllegalArgumentException("Não existem avaliações feitas para a o usuário cadastrado");
             }
             return ResponseEntity.ok(avaliacao);
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("Não existe um usuário com o id informado");
         }
     }
 
     @PostMapping
-    public ResponseEntity<Avaliacao> inserir(@RequestBody Avaliacao body){
+    public ResponseEntity<Avaliacao> inserir(@RequestBody Avaliacao body) {
         Avaliacao a1 = aRepository.save(body);
         return ResponseEntity.ok(a1);
     }
 
     //Acho que não pode editar avaliação
-}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        boolean existe = aRepository.existsById(id);
+        if (existe) {
+            aRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+        }
+
+    }

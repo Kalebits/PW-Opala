@@ -53,12 +53,12 @@ public class UsuarioController {
         Optional<Usuario> existe = uRepository.findById(id);
         if(existe.isPresent()){
             List<Contrato> contratos = existe.get().getContratos();
-           /* if(!contratos.isEmpty() &&
-                    existe.get().getContratos().get()
-                            .getDt_Apresentacao().isAfter(LocalDate.now())){
-throw exception
+            /*if(!contratos.isEmpty() &&
+                    existe.get().getContratos().get().getDt_Apresentacao().isAfter(LocalDate.now())) {
+                throw new RuntimeException()
+            }
 Seria algo do tipo mas não pesquisei nada a respeito de como corrigir
-            }*/
+            */
             uRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }

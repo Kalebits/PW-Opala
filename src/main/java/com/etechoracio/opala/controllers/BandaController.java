@@ -63,4 +63,14 @@ public class BandaController {
         return ResponseEntity.ok(b1);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        boolean existe = bRepository.existsById(id);
+        if (existe) {
+            bRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
