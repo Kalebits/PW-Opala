@@ -13,4 +13,9 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
     @Query("select a from Avaliacao a where a.id_Usuario.id_Usuario = :idUsuario")
     List<Avaliacao> findAllAvaliacao(Long idUsuario);
 
+    /*@Query("select a from Avaliacao a INNER JOIN a.id_Usuario u INNER JOIN u.id_Usuario ORDER BY a.nota")
+    List<Avaliacao> orderByAvaliacaoC();
+
+    @Query("select a from Avaliacao a INNER JOIN a.id_Usuario u INNER JOIN u.id_Usuario ORDER BY a.nota DESC")
+    List<Avaliacao> orderByAvaliacaoD();*/
 }

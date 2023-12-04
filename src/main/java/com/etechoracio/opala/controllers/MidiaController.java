@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/midias")
-public class MidiaController {
+public class    MidiaController {
 
     @Autowired
     private MidiaRepository mRepository;
@@ -86,5 +86,5 @@ public class MidiaController {
     }
 }
 
-    // Find all by id
+
 

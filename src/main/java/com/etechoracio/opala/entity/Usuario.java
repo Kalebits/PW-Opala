@@ -1,9 +1,9 @@
 package com.etechoracio.opala.entity;
 
-import com.etechoracio.opala.Enum.CategoriaEnum;
-import com.etechoracio.opala.Enum.TipoGenero;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.etechoracio.opala.enumm.CategoriaEnum;
+import com.etechoracio.opala.enumm.ExcludeEnum;
+import com.etechoracio.opala.enumm.TipoGenero;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +45,13 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoGenero genero;
 
+    @Column(name = "exclusao", columnDefinition = "varchar(9) default 'ATIVO'")
+    @Enumerated(EnumType.STRING)
+    private ExcludeEnum exclusao = ExcludeEnum.ATIVO;
+
+    //@Column(name = "notaFinal")
+    //private double notaF;
+
     @ManyToMany
     @JoinTable(name="UsuInst", joinColumns=
             {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
@@ -62,5 +69,6 @@ public class Usuario {
             {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
             {@JoinColumn(name = "ID_CONTRATO")})
     private List<Contrato> contratos;
+
 
 }

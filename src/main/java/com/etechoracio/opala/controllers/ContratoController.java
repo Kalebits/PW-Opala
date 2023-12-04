@@ -59,9 +59,6 @@ public class ContratoController {
         if(existe.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        //Aqui apenas o contratante poderia alterar e o contratado teria que aceitar
-        // para finalizar a edição e caso recuse mandar notificação para caso
-        // queira cancelar pagando uma taxa de cancelamento
         Contrato c1 = cRepository.save(contrato);
         return ResponseEntity.ok(c1);
     }

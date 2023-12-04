@@ -1,4 +1,4 @@
-package com.etechoracio.opala.Enum;
+package com.etechoracio.opala.enumm;
 
 public enum CategoriaEnum {
     FISICA,
