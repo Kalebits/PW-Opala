@@ -25,6 +25,9 @@ public class Usuario {
     @Column(name="Nome")
     private String nome;
 
+    @Column(name="cpf")
+    private Integer cpf;
+
     @Column(name="Email")
     private String email;
 

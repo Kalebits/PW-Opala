@@ -94,5 +94,35 @@ public class UsuarioController {
 
     }
 
+    @GetMapping(value = "/login")
+    public ResponseEntity<?> buscarPorEmail(@RequestBody UsuarioDTO login){
+
+        List<UsuarioDTO> cadastro = uRepository.findUsuarioByEmail(login.getEmail()).stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+        if(cadastro.isEmpty()){
+            throw new IllegalArgumentException("Não existe usuario com esse e-mail");
+        }
+
+        List<UsuarioDTO> senha = uRepository.findSenha(login.getSenha()).stream()
+                .map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+        if(senha.isEmpty()){
+            throw new IllegalArgumentException("Senha incorreta");
+        }
+
+
+        return ResponseEntity.ok(login);
+    }
+
+    @GetMapping(value = "/{cpf}")
+    public ResponseEntity<?> buscarPorCPF(@PathVariable Integer cpf){
+
+        List<UsuarioDTO> login = uRepository.findUsuarioByCPF(cpf).stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+        if(login.isEmpty()){
+            throw new IllegalArgumentException("Não existe usuario com o esse CPF");
+        }
+        return ResponseEntity.ok(login);
+    }
 
 }
