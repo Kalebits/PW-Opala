@@ -1,7 +1,7 @@
 package com.etechoracio.opala.entity;
 
 
-import com.etechoracio.opala.enumm.CategoriaEnum;
+import com.etechoracio.opala.dto.MidiaDTO;
 import com.etechoracio.opala.enumm.ExcludeEnum;
 import com.etechoracio.opala.enumm.TipoGenero;
 import jakarta.persistence.*;
@@ -31,15 +31,20 @@ public class Usuario {
     @Column(name="Senha")
     private String senha;
 
+    @Column(name="foto", columnDefinition = "varchar(max) default 'cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'")
+    private String foto = "cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"; // Foto feita
+
+    @Column(name="descricao")
+    private String descricao; // Descricao feita
+
     @Column(name="Telefone")
     private Integer telefone;
 
     @Column(name="Endereco")
     private String endereco;
 
-    @Column(name="tipoUsuario")
-    @Enumerated(EnumType.STRING)
-    private CategoriaEnum tipoUsuario;
+    @Column(name="CEP")
+    private Long cep;
 
     @Column(name="genero")
     @Enumerated(EnumType.STRING)
@@ -53,22 +58,13 @@ public class Usuario {
     //private double notaF;
 
     @ManyToMany
-    @JoinTable(name="UsuInst", joinColumns=
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
-            {@JoinColumn(name = "ID_INSTRUMENTO")})
-    private List<Instrumento> instrumentos;
-
-    @ManyToMany
-    @JoinTable(name="UsuBanda", joinColumns=
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
-            {@JoinColumn(name = "ID_BANDA")})
-    private List<Banda> bandas;
-
-    @ManyToMany
     @JoinTable(name="UsuCont", joinColumns=
             {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
             {@JoinColumn(name = "ID_CONTRATO")})
     private List<Contrato> contratos;
 
+    @OneToMany
+    @JoinColumn(name="ID_Midia")
+    private List<Midia> midias;
 
 }

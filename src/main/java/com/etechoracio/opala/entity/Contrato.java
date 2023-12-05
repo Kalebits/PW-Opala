@@ -29,8 +29,11 @@ public class Contrato {
     @Column(name = "dt_Apresentacao")
     private LocalDate dt_Apresentacao;
 
-    @ManyToMany(mappedBy = "contratos")
-    @JsonIgnore
-    private List<Usuario> usuarios;
+    @ManyToOne
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario id_usuario;
 
+    @OneToOne
+    @JoinColumn(name = "ID_Anuncio")
+    private Anuncio id_Anuncio;
 }

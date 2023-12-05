@@ -2,6 +2,7 @@ package com.etechoracio.opala.controllers;
 
 
 import com.etechoracio.opala.dto.UsuarioDTO;
+import com.etechoracio.opala.dto.UsuarioUpdateDTO;
 import com.etechoracio.opala.entity.Contrato;
 import com.etechoracio.opala.entity.Usuario;
 import com.etechoracio.opala.enumm.ExcludeEnum;
@@ -47,14 +48,29 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long id,
-                                             @RequestBody Usuario usuario){
+                                             @RequestBody UsuarioUpdateDTO usuario){
         Optional<Usuario> existe = uRepository.findById(id);
-        if(existe.isEmpty()){
-            return ResponseEntity.notFound().build();
+        if(existe.isPresent()){
+            Usuario existente = existe.get();
+            if (usuario.getCep() != null){
+                existente.setCep(usuario.getCep());
+            }
+
+            if (usuario.getFoto() != null){
+                existente.setFoto(usuario.getFoto());
+            }
+
+            if (usuario.getEmail() != null){
+                existente.setEmail(usuario.getEmail());
+            }
+
+            uRepository.save(existente);
+            return ResponseEntity.ok().build();
         }
-        usuario.setId_Usuario(id);
-        Usuario u1 = uRepository.save(usuario);
-        return ResponseEntity.ok(u1);
+
+
+        return ResponseEntity.notFound().build();
+
     }
 
     @PatchMapping("/{id}")
