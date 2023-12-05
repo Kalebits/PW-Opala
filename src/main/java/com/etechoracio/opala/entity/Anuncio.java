@@ -26,6 +26,7 @@ public class Anuncio {
     private LocalDate data;
 
     @Column(name="tipo")
+    @Enumerated(EnumType.STRING)
     private TipoAnuncio tipo;
 
     @ManyToOne

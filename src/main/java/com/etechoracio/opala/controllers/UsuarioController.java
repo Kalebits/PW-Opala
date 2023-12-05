@@ -34,8 +34,11 @@ public class UsuarioController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id){
-        Optional<Usuario> existe = uRepository.findById(id);
+    public ResponseEntity<UsuarioDTO> buscarPorId(@PathVariable Long id){
+
+        List<UsuarioDTO> existe = uRepository.findById(id).stream()
+                .map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
         return existe.isPresent() ? ResponseEntity.ok(existe.get())
                 : ResponseEntity.notFound().build();
     }
@@ -94,35 +97,44 @@ public class UsuarioController {
 
     }
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> buscarPorEmail(@RequestBody UsuarioDTO login){
 
-        List<UsuarioDTO> cadastro = uRepository.findUsuarioByEmail(login.getEmail()).stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+        if(login.getEmail().isEmpty()){
 
-        if(cadastro.isEmpty()){
-            throw new IllegalArgumentException("Não existe usuario com esse e-mail");
+            List<UsuarioDTO> cadastro = uRepository.findUsuarioByCPF(login.getCpf()).stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+            if(cadastro.isEmpty()){
+                throw new IllegalArgumentException("Não existe usuario com esse CPF");
+            }
+            else{
+                List<UsuarioDTO> senha = uRepository.findSenha(login.getSenha(), login.getEmail(), login.getCpf())
+                        .stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+                if(senha.isEmpty()){
+                    throw new IllegalArgumentException("Senha incorreta");
+                }
+            }
+
         }
+        else{
+            List<UsuarioDTO> cadastro = uRepository.findUsuarioByEmail(login.getEmail()).stream()
+                    .map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
 
-        List<UsuarioDTO> senha = uRepository.findSenha(login.getSenha()).stream()
-                .map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+            if(cadastro.isEmpty()){
+                throw new IllegalArgumentException("Não existe usuario com esse e-mail");
+            }
 
-        if(senha.isEmpty()){
-            throw new IllegalArgumentException("Senha incorreta");
+            List<UsuarioDTO> senha = uRepository.findSenha(login.getSenha(), login.getEmail(), login.getCpf())
+                    .stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
+
+            if(senha.isEmpty()){
+                throw new IllegalArgumentException("Senha incorreta");
+            }
         }
-
 
         return ResponseEntity.ok(login);
     }
 
-    @GetMapping(value = "/{cpf}")
-    public ResponseEntity<?> buscarPorCPF(@PathVariable Integer cpf){
-
-        List<UsuarioDTO> login = uRepository.findUsuarioByCPF(cpf).stream().map(e -> modelMapper.map(e, UsuarioDTO.class)).collect(Collectors.toList());
-
-        if(login.isEmpty()){
-            throw new IllegalArgumentException("Não existe usuario com o esse CPF");
-        }
-        return ResponseEntity.ok(login);
-    }
 
 }

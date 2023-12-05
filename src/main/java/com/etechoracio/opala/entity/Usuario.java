@@ -26,7 +26,7 @@ public class Usuario {
     private String nome;
 
     @Column(name="cpf")
-    private Integer cpf;
+    private Long cpf;
 
     @Column(name="Email")
     private String email;
@@ -57,13 +57,10 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private ExcludeEnum exclusao = ExcludeEnum.ATIVO;
 
-    //@Column(name = "notaFinal")
-    //private double notaF;
 
-    @ManyToMany
-    @JoinTable(name="UsuCont", joinColumns=
-            {@JoinColumn(name = "ID_USUARIO")}, inverseJoinColumns=
-            {@JoinColumn(name = "ID_CONTRATO")})
+
+    @OneToMany
+    @JoinColumn(name="ID_CONTRATO")
     private List<Contrato> contratos;
 
     @OneToMany
