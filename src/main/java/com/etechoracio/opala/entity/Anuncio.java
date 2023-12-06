@@ -2,6 +2,8 @@ package com.etechoracio.opala.entity;
 
 
 import com.etechoracio.opala.enumm.TipoAnuncio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "Anuncio")
+@Table(name="Anuncio")
 public class Anuncio {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +33,6 @@ public class Anuncio {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
+    @JsonIgnore
     private Usuario id_usuario;
 }

@@ -47,7 +47,7 @@ public class    MidiaController {
 
             List<MidiaDTO> midias = mRepository.findAllMidias(id).stream().map(e -> modelMapper.map(e, MidiaDTO.class)).collect(Collectors.toList());
             if (midias.isEmpty()) {
-                throw new IllegalArgumentException("Não existem midias cadastradas para o usuário informado");
+                return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(midias);
 //ResponseEntity não funciona retornando um unico campo do banco

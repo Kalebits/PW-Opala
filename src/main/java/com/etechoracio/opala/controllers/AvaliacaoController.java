@@ -8,6 +8,7 @@ import com.etechoracio.opala.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,15 +34,12 @@ public class AvaliacaoController {
         double media = aRepository.mediaA(id);
         AvaliacaoDTO avDTO = new AvaliacaoDTO();
 
-        if(Objects.nonNull(media)){
+        if (media > 0) {
             avDTO.setNota(media);
-            return ResponseEntity.ok(avDTO);
+        } else {
+            avDTO.setNota(0); // Pode ser outro valor padrão
         }
-        else{
-            avDTO.setNota(0);
-            return ResponseEntity.ok(avDTO);
-        }
-
+        return ResponseEntity.ok(avDTO);
     }
 
     @GetMapping("/usuario/{id}")
@@ -49,34 +47,48 @@ public class AvaliacaoController {
 
         Optional<Usuario> existe = uRepository.findById(id);
         if (existe.isPresent()) {
-            List<Avaliacao> avaliacao = aRepository.findAllAvaliacao(id);
-            if (avaliacao.isEmpty()) {
-                throw new IllegalArgumentException("Não existem avaliações feitas para a o usuário cadastrado");
+            List<Avaliacao> avaliacoes = aRepository.findAllAvaliacao(id);
+            if (avaliacoes.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Não existem avaliações feitas para o usuário cadastrado");
+
             }
-            return ResponseEntity.ok(avaliacao);
+            return ResponseEntity.ok(avaliacoes);
         } else {
-            throw new IllegalArgumentException("Não existe um usuário com o id informado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Não existe um usuário com o ID informado");
+
         }
     }
 
     @PostMapping
-    public ResponseEntity<Avaliacao> inserir(@RequestBody Avaliacao body) {
-        Avaliacao a1 = aRepository.save(body);
-        return ResponseEntity.ok(a1);
+    public ResponseEntity<?> inserir(@RequestBody Avaliacao body) {
+        try {
+            Avaliacao a1 = aRepository.save(body);
+            return ResponseEntity.status(HttpStatus.CREATED).body(a1); // Retorna a avaliação inserida
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao inserir a avaliação: " + e.getMessage());
+        }
     }
 
     //Acho que não pode editar avaliação
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> excluir(@PathVariable Long id) {
-        boolean existe = aRepository.existsById(id);
-        if (existe) {
-            aRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        try {
+            boolean existe = aRepository.existsById(id);
+            if (existe) {
+                aRepository.deleteById(id);
+                return ResponseEntity.ok().body("Avaliação excluída com sucesso.");
+            }
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao excluir a avaliação: " + e.getMessage());
         }
-        return ResponseEntity.notFound().build();
-        }
 
 
 
+    }
     }

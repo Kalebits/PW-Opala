@@ -1,6 +1,7 @@
 package com.etechoracio.opala.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +32,6 @@ public class Contrato {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO")
+    @JsonIgnore
     private Usuario id_usuario;
-
-    @OneToOne
-    @JoinColumn(name = "ID_Anuncio")
-    private Anuncio id_Anuncio;
 }

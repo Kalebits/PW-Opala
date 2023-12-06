@@ -12,9 +12,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findUsuarioByEmail(String email);
 
     @Query("select u from Usuario u where u.cpf = :cpf")
-    List<Usuario> findUsuarioByCPF(Long cpf);
+    List<Usuario> findUsuarioByCPF(String cpf);
 
     @Query("select u from Usuario u where u.senha = :senha AND u.email = :email OR u.cpf = :cpf")
-    List<Usuario> findSenha(String senha, String email, Long cpf);
+    List<Usuario> findSenha(String senha, String email, String cpf);
+
 
 }

@@ -11,11 +11,11 @@ public class UsuarioDTO {
 
     private Long id_Usuario;
     private String nome;
-    private String senha;
+    private String cpf;
     private String email;
-    private Long cpf;
-    private String endereco;
-    private String foto;
-    private Integer telefone;
+    private String senha;
+    private String telefone;
+    private String genero;
+
 
 }

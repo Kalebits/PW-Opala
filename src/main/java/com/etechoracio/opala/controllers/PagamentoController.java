@@ -8,6 +8,7 @@ import com.etechoracio.opala.repositories.UsuarioRepository;
 import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,29 +41,28 @@ public class PagamentoController {
 
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<?> buscarTodasMidiasPorUsuario(@PathVariable Long id) {
-
+    public ResponseEntity<List<PagamentoDTO>> buscarPagamentosPorUsuario(@PathVariable Long id) {
         Optional<Usuario> existe = uRepository.findById(id);
+
         if (existe.isPresent()) {
+            List<PagamentoDTO> pagamentos = pRepository.findAllPagamentosByUser(id)
+                    .stream().map(e -> modelMapper.map(e, PagamentoDTO.class)).collect(Collectors.toList());
 
-
-            List<PagamentoDTO> pagamentos = pRepository.findAllPagamentosByUser(id).
-                    stream().map(e -> modelMapper.map(e, PagamentoDTO.class)).collect(Collectors.toList());
-
-            if (pagamentos.isEmpty()) {
-                throw new IllegalArgumentException("Não existem midias cadastradas para o usuário informado");
-            }
             return ResponseEntity.ok(pagamentos);
-//ResponseEntity não funciona retornando um unico campo do banco
         } else {
-            throw new IllegalArgumentException("Não existe um usuário com o id informado");
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Pagamento> inserir(@RequestBody Pagamento body){
-        Pagamento p1 = pRepository.save(body);
-        return ResponseEntity.ok(p1);
+    public ResponseEntity<?> inserir(@RequestBody Pagamento body){
+        try {
+            Pagamento pagamentoSalvo = pRepository.save(body);
+            return ResponseEntity.ok(pagamentoSalvo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao inserir o pagamento: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
@@ -72,7 +72,7 @@ public class PagamentoController {
         if(existe.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        //if com o hash para saber se é o usuário que gerou o método, não sei se precisaria
+
         Pagamento p1 = pRepository.save(pagamento);
         return ResponseEntity.ok(p1);
     }
