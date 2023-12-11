@@ -1,8 +1,11 @@
 package com.etechoracio.opala.controllers;
 
 import com.etechoracio.opala.dto.AnuncioDTO;
+import com.etechoracio.opala.dto.AnuncioResponseDTO;
 import com.etechoracio.opala.entity.Anuncio;
 import com.etechoracio.opala.entity.Usuario;
+import com.etechoracio.opala.enumm.ExcludeEnum;
+import com.etechoracio.opala.enumm.TipoAnuncio;
 import com.etechoracio.opala.repositories.AnuncioRepository;
 import com.etechoracio.opala.repositories.UsuarioRepository;
 import org.modelmapper.ModelMapper;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,13 +34,20 @@ public class AnuncioController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
-    public ResponseEntity<?> buscarTodos(){
+    public ResponseEntity<AnuncioResponseDTO> buscarTodos(){
+        ExcludeEnum exclude = ExcludeEnum.ATIVO;
+            var result = anRepository.findAtivos(exclude);
+        if(result.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+            Map<TipoAnuncio, List<AnuncioDTO>> agrupados =
+                result.stream().map(e -> modelMapper.map(e, AnuncioDTO.class))
+                        .collect(Collectors.groupingBy(e -> e.getTipo()));
 
-            List<AnuncioDTO> todosAnuncios = anRepository.findAll().stream().map(e -> modelMapper.map(e, AnuncioDTO.class)).collect(Collectors.toList());
-            if(todosAnuncios.isEmpty()){
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(todosAnuncios);
+
+            return ResponseEntity.ok(AnuncioResponseDTO.builder().contratantes(agrupados.get(TipoAnuncio.CONTRATANTE))
+                            .artistas(agrupados.get(TipoAnuncio.ARTISTA))
+                        .build());
 
     }
 
@@ -74,27 +85,21 @@ public class AnuncioController {
                 .body("Não existem midias cadastradas para o usuário informado");
 
     }
-
-    /*@DeleteMapping("/{id}")
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
-        boolean existe = mRepository.existsById(id);
-        if (existe) {
-            mRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
-
-    }*/
-
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> excluir(@PathVariable Long id){
-        boolean existe = anRepository.existsById(id);
-        if (existe){
-            anRepository.deleteById(id);
-            return ResponseEntity.ok().build();
+        Optional<Anuncio> existe = anRepository.findById(id);
+        if(existe.isPresent()){
+            anRepository.save(existe.get().ativarDesativar());
+            return ResponseEntity.ok(existe.get());
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Anuncio inexistente");
         }
-        return ResponseEntity.notFound().build();
+
     }
+
+
+
 
 
 }

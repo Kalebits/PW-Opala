@@ -62,7 +62,7 @@ public class Usuario {
 
     @Column(name="genero")
     @Enumerated(EnumType.STRING)
-    private TipoGenero genero;
+    private TipoGenero genero = TipoGenero.FEMININO;
 
     @Column(name = "exclusao", columnDefinition = "varchar(9) default 'ATIVO'")
     @Enumerated(EnumType.STRING)
